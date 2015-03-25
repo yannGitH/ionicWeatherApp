@@ -10,7 +10,7 @@ Prérequis :
 - Ionic
 
 Initialisez votre plateforme :
->ionic plateform add android
+>ionic platform add android
 
 Compiler votre application :
 >ionic build android
