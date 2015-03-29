@@ -1,1 +1,9 @@
 /* Empty. Add your own CSS if you like */
+ion-content {
+	background: url("../img/fond.jpg");
+	background-size: 100%;
+}
+.title {
+	text-align: center;
+}
+
