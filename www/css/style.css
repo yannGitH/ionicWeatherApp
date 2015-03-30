@@ -7,3 +7,21 @@ ion-content {
 	text-align: center;
 }
 
+/*.div-previsions {
+    float : left;
+    display: inline-block;
+    width: 25%;
+    text-align: center;
+}
+
+.previsions {
+    float : left;
+    display: inline-block;
+    width: 25%;
+    height: 100%;
+    text-align: center;
+}
+
+.day {
+    clear: both;
+}*/
