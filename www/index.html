@@ -50,91 +50,14 @@
                 </div>
 
                 <div ng-controller="SecondCtrl">
-                    <div class="day">
-                        <span class="previsions" id="day-1">{{days.day[0].date}}</span>
-                        <div id="test-dim-img" class="div-previsions">
-                            <img id="wheather-icon-1" ng-src={{days.day[0].wheatherIcon}}></img>
-                        </div>
-                        <span class="previsions" id="temp-max-1">{{days.day[0].tempMax}}</span>
-                        <span class="previsions" id="temp-min-1">{{days.day[0].tempMin}}</span>
-                    </div>
-                    <div class="day">
-                        <span class="previsions" id="day-2">{{days.day[1].date}}</span>
+                    <div ng-repeat="day in days" id="test">
+                        <span class="previsions" id="day">{{day.date}}</span>
                         <div class="div-previsions">
-                            <img id="wheather-icon-2" ng-src={{days.day[1].wheatherIcon}}></img>
+                            <img id="wheather-icon" ng-src={{day.wheatherIcon}}></img>
                         </div>
-                        <span class="previsions" id="temp-max-2">{{days.day[1].tempMax}}</span>
-                        <span class="previsions" id="temp-min-2">{{days.day[1].tempMin}}</span>
+                        <span class="previsions" id="temp-max">{{day.tempMax}}</span>
+                        <span class="previsions" id="temp-min">{{day.tempMin}}</span>
                     </div>
-                    <div class="day">
-                        <span class="previsions" id="day-3">{{days.day[2].date}}</span>
-                        <div class="div-previsions">
-                            <img id="wheather-icon-3" ng-src={{days.day[2].wheatherIcon}}></img>
-                        </div>
-                        <span class="previsions" id="temp-max-3">{{days.day[2].tempMax}}</span>
-                        <span class="previsions" id="temp-min-3">{{days.day[2].tempMin}}</span>
-                    </div>
-                    <div class="day">
-                        <span class="previsions" id="day-4">{{days.day[3].date}}</span>
-                        <div class="div-previsions">
-                            <img id="wheather-icon-4" ng-src={{days.day[3].wheatherIcon}}></img>
-                        </div>
-                        <span class="previsions" id="temp-max-4">{{days.day[3].tempMax}}</span>
-                        <span class="previsions" id="temp-min-4">{{days.day[3].tempMin}}</span>
-                    </div>
-                    <div class="day">
-                        <span class="previsions" id="day-5">{{days.day[4].date}}</span>
-                        <div class="div-previsions">
-                            <img id="wheather-icon-5" ng-src={{days.day[4].wheatherIcon}}></img>
-                        </div>
-                        <span class="previsions" id="temp-max-5">{{days.day[4].tempMax}}</span>
-                        <span class="previsions" id="temp-min-5">{{days.day[4].tempMin}}</span>
-                    </div>
-                    <div class="day">
-                        <span class="previsions" id="day-6">{{days.day[5].date}}</span>
-                        <div class="div-previsions">
-                            <img id="wheather-icon-6" ng-src={{days.day[5].wheatherIcon}}></img>
-                        </div>
-                        <span class="previsions" id="temp-max-6">{{days.day[5].tempMax}}</span>
-                        <span class="previsions" id="temp-min-6">{{days.day[5].tempMin}}</span>
-                    </div>
-                    <div class="day">
-                        <span class="previsions" id="day-7">{{days.day[6].date}}</span>
-                        <div class="div-previsions">
-                            <img id="wheather-icon-7" ng-src={{days.day[6].wheatherIcon}}></img>
-                        </div>
-                        <span class="previsions" id="temp-max-7">{{days.day[6].tempMax}}</span>
-                        <span class="previsions" id="temp-min-7">{{days.day[6].tempMin}}</span>
-                    </div>
-                    <div class="day">
-                        <span class="previsions" id="day-8">{{days.day[7].date}}</span>
-                        <div class="div-previsions">
-                            <img id="wheather-icon-8" ng-src={{days.day[7].wheatherIcon}}></img>
-                        </div>
-                        <span class="previsions" id="temp-max-8">{{days.day[7].tempMax}}</span>
-                        <span class="previsions" id="temp-min-8">{{days.day[7].tempMin}}</span>
-                    </div>
-                    <div class="day">
-                        <span class="previsions" id="day-9">{{days.day[8].date}}</span>
-                        <div class="div-previsions">
-                            <img id="wheather-icon-9" ng-src={{days.day[8].wheatherIcon}}></img>
-                        </div>
-                        <span class="previsions" id="temp-max-9">{{days.day[8].tempMax}}</span>
-                        <span class="previsions" id="temp-min-9">{{days.day[8].tempMin}}</span>
-                    </div>
-                    <div class="day">
-                        <span class="previsions" id="day-10">{{days.day[9].date}}</span>
-                        <div class="div-previsions">
-                            <img id="wheather-icon-10" ng-src={{days.day[9].wheatherIcon}}></img>
-                        </div>
-                        <span class="previsions" id="temp-max-10">{{days.day[9].tempMax}}</span>
-                        <span class="previsions" id="temp-min-10">{{days.day[9].tempMin}}</span>
-                    </div>
-
-<!--                     <div ng-repeat="day in days track by $index" id="test">
-                        <p>{{day[0].tempMax}}</p>
-                        <p>{{day[11].tempMax}}</p>
-                    </div> -->
 
                 </div>
 

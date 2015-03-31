@@ -34,21 +34,21 @@ weatherApp.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
 
 
 weatherApp.controller('SecondCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.days = {};
+    $scope.days = [];
 
-    $scope.days.day = [];
+    $scope.days.day = {};
 
     $http({
             method: 'GET',
             url: "http://api.openweathermap.org/data/2.5/forecast/daily?q=Lyon,fr&cnt=10&mode=json",
         })
         .success(function(data) {
-            for (i = 0; i < data.list.length && i < 10; i++) {
-                $scope.days.day[i] = [];
-                $scope.days.day[i].date = convertNumberIntoDateDay(new Date().getDay() + i);
-                $scope.days.day[i].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
-                $scope.days.day[i].tempMax = convertKelvinToCelsisus(data.list[i].temp.max);
-                $scope.days.day[i].tempMin = convertKelvinToCelsisus(data.list[i].temp.min);
+            for (i = 1; i < data.list.length && i < 10; i++) {
+                $scope.days[i] = {};
+                $scope.days[i].date = convertNumberIntoDateDay(new Date().getDay() + i);
+                $scope.days[i].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
+                $scope.days[i].tempMax = convertKelvinToCelsisus(data.list[i].temp.max);
+                $scope.days[i].tempMin = convertKelvinToCelsisus(data.list[i].temp.min);
 
             }
         })
