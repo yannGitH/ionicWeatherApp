@@ -44,11 +44,11 @@ weatherApp.controller('secondCtrl', ['$scope', '$http', function($scope, $http) 
         })
         .success(function(data) {
             for (i = 1; i < data.list.length && i < 10; i++) {
-                $scope.days[i] = {};
-                $scope.days[i].date = convertNumberIntoDateDay(new Date().getDay() + i);
-                $scope.days[i].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
-                $scope.days[i].tempMax = convertKelvinToCelsisus(data.list[i].temp.max);
-                $scope.days[i].tempMin = convertKelvinToCelsisus(data.list[i].temp.min);
+                $scope.days[i-1] = {};
+                $scope.days[i-1].date = convertNumberIntoDateDay(new Date().getDay() + i);
+                $scope.days[i-1].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
+                $scope.days[i-1].tempMax = convertKelvinToCelsisus(data.list[i].temp.max);
+                $scope.days[i-1].tempMin = convertKelvinToCelsisus(data.list[i].temp.min);
 
             }
         })

@@ -42,11 +42,11 @@
                     </div>
                     <div class="list">
                         <div ng-repeat="day in days" id="test">
-                            <div class="item item-text-wrap">
-                                <span class="previsions" id="day">{{day.date}}</span>
-                                <img id="wheather-icon" ng-src={{day.wheatherIcon}}></img>
-                                <span class="previsions" id="temp-max">{{day.tempMax}}</span>
-                                <span class="previsions" id="temp-min">{{day.tempMin}}</span>
+                            <div class="item item-text-wrap row">
+                                <span class="col col-45" id="day">{{day.date}}</span>
+                                <img class="col col-10" id="wheather-icon" ng-src={{day.wheatherIcon}}></img>
+                                <span class="col col-45" id="temp-max">{{day.tempMax}}  {{day.tempMin}}</span>
+                               <!--  <span class="col" id="temp-min">{{day.tempMin}}</span> -->
                             </div>
                         </div>
                     </div>
