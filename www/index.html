@@ -22,7 +22,7 @@
             </ion-header-bar> -->
         <ion-content>
             <div id="mainPage" ng-controller="mainCtrl">
-                <div>
+                <div id="test">
                     <p class="title">{{city.name}}</p>
                     <p>
                         <img id="weather-icon" ng-src={{city.weatherIcon}}></img><span id="weather">{{city.weather}}</span>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="list">
                         <div ng-repeat="day in days" id="test">
-                            <div id="test" class="item item-text-wrap">
+                            <div class="item item-text-wrap">
                                 <span class="previsions" id="day">{{day.date}}</span>
                                 <img id="wheather-icon" ng-src={{day.wheatherIcon}}></img>
                                 <span class="previsions" id="temp-max">{{day.tempMax}}</span>

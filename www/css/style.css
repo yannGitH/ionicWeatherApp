@@ -1,15 +1,17 @@
 /* Empty. Add your own CSS if you like */
+
 ion-content {
-	background: url("../img/fond.jpg");
-	background-size: 100%;
+    background: url("../img/fond.jpg");
+    background-size: 100%;
 }
+
 .title {
-	text-align: center;
+    text-align: center;
 }
+
 img {
     display: inline-block;
 }
-
 /*.div-previsions {
     float : left;
     display: inline-block;
@@ -28,10 +30,19 @@ img {
 .day {
     clear: both;
 }*/
+
 .previsions {
-width: 25%;
+    width: 25%;
 }
 
-.mainPage {
-    margin: 20px;
+#mainPage {
+    height: 100%;
+    width: 100;
+}
+
+#test {
+    margin: 10px;
+    color: white;
+    height: 100%;
+    width: 100;
 }
