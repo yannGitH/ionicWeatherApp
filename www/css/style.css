@@ -6,6 +6,9 @@ ion-content {
 .title {
 	text-align: center;
 }
+img {
+    display: inline-block;
+}
 
 /*.div-previsions {
     float : left;
@@ -25,3 +28,10 @@ ion-content {
 .day {
     clear: both;
 }*/
+.previsions {
+width: 25%;
+}
+
+.mainPage {
+    margin: 20px;
+}

@@ -8,7 +8,7 @@ var IMG_PATH = "img/IconList/"
 // the 2nd parameter is an array of 'requires'
 var weatherApp = angular.module('starter', ['ionic']);
 
-weatherApp.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
+weatherApp.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.city = {};
 
     $http({
@@ -33,7 +33,7 @@ weatherApp.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
 
 
 
-weatherApp.controller('SecondCtrl', ['$scope', '$http', function($scope, $http) {
+weatherApp.controller('secondCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.days = [];
 
     $scope.days.day = {};
