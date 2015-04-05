@@ -4,46 +4,16 @@ ion-content {
     background: url("../img/fond.jpg");
     background-size: 100%;
 }
-
 .title {
     text-align: center;
+    height: 10%;
 }
-
-img {
-    display: inline-block;
-}
-/*.div-previsions {
-    float : left;
-    display: inline-block;
-    width: 25%;
-    text-align: center;
-}
-
-.previsions {
-    float : left;
-    display: inline-block;
-    width: 25%;
-    height: 100%;
-    text-align: center;
-}
-
-.day {
-    clear: both;
-}*/
-
-.previsions {
-    width: 25%;
-}
-
 #mainPage {
-    height: 100%;
-    width: 100;
-}
-
-#test {
     margin: 10px;
     color: white;
-    height: 100%;
-    width: 100;
-    border : 1px solid red;
+    height: 100vh;
 }
+#componentBottom {
+    height: 90%;
+}
+
