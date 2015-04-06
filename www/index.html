@@ -20,34 +20,53 @@
             <ion-content>
                 <div ng-controller="mainCtrl">
                     <div id="mainPage">
-                        <p class="title">{{city.name}}</p>
+                        <p id="title">{{city.name}}</p>
                         <div id="componentBottom" class="row row-bottom">
-
                             <div class="col">
+                                <p id="temperature">{{city.temperature}}°</p>
                                 <p>
                                     <img id="weather-icon" ng-src={{city.weatherIcon}}></img><span id="weather">{{city.weather}}</span>
                                 </p>
-                                <p id="temperature">{{city.temperature}}</p>
                                 <p>
-                                    <img id="arrow-up" src="img/arrowUp.png"></img><span id="temperature-max">{{city.temperatureMax}}</span>
-                                    <img id="arrow-down" src="img/arrowDown.png"></img><span id="temperature-min">{{city.temperatureMin}}</span>
+                                    <img id="arrow-up" src="img/arrowUp.png"></img><span id="temperature-max">{{city.temperatureMax}}°</span>
+                                    <img id="arrow-down" src="img/arrowDown.png"></img><span id="temperature-min">{{city.temperatureMin}}°</span>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div ng-controller="secondCtrl">
-                    <div class="card">
-                        <div class="item item-divider">
-                            Prévisions
+
+                <div class="card">
+                    <div class="item item-divider">
+                        Prévisions
+                    </div>
+                    <div class="list">
+                        <div ng-controller="secondCtrl">
+                            <ion-scroll direction="x" class="wide-as-needed">
+                                <div class="row">
+                                    <div ng-repeat="hour in hours">
+                                        <div id="hourPrevisions" class="col col-60">
+                                            <span>{{hour.clock}}</span>
+                                            <div>
+                                                <img ng-src={{hour.wheatherIcon}}></img>
+                                            </div>
+                                            <span>{{hour.temp}}°</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ion-scroll>
                         </div>
-                        <div class="list">
-                            <div ng-repeat="day in days" id="test">
+                        <div ng-controller="thirdCtrl">
+                            <div ng-repeat="day in days">
                                 <div class="row">
                                     <span class="col col-45" id="day">{{day.date}}</span>
-                                    <img class="col col-10" id="wheather-icon" ng-src={{day.wheatherIcon}}></img>
-                                    <span class="col col-45" id="temp-max">{{day.tempMax}}  {{day.tempMin}}</span>
-                                    <!--  <span class="col" id="temp-min">{{day.tempMin}}</span> -->
+                                    <div class="col col-10">
+                                        <img id="wheather-icon" ng-src={{day.wheatherIcon}}></img>
+                                    </div>
+                                    <div class="col col-45" id="temp">
+                                        <span>{{day.tempMax}}°</span>&nbsp;&nbsp;
+                                        <span id="tempMin">{{day.tempMin}}°</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

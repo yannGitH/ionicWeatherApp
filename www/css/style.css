@@ -1,19 +1,57 @@
-/* Empty. Add your own CSS if you like */
-
+/*Background*/
 ion-content {
-    background: url("../img/fond.jpg");
+    background: url("../img/Lyon.jpg");
     background-size: 100%;
 }
-.title {
+/*Name of the city at the top of the screen*/
+#title {
     text-align: center;
     height: 10%;
 }
+/*Temperature on the main page*/
+#temperature {
+    font-size: 70px;
+}
+/*Main page parameters*/
 #mainPage {
     margin: 10px;
     color: white;
     height: 100vh;
 }
+/*Height of the component in the main page's bottom*/
 #componentBottom {
     height: 90%;
 }
-
+/*Color of the min temperature in the previsions card*/
+#tempMin {
+    color: blue;
+}
+/*Position of the temperatures in the previsions card*/
+#temp {
+    text-align: right;
+    color: white;
+}
+/*Appearance of the previsions card*/
+.card {
+    background: black;
+    opacity: 0.5;
+}
+/*Appearance of the item appending to the previsions card*/
+.item {
+    color: white;
+    background: black;
+}
+/*Color of the day in the previsions card*/
+#day {
+    color: white;
+}
+/*Hour previsions*/
+#hourPrevisions {
+    color: white;
+    width: 60px;
+}
+/*Allow horizontal scorll on hours previsions*/
+.wide-as-needed {
+    overflow: hidden;
+    white-space: nowrap;
+}

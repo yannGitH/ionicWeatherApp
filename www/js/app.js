@@ -31,9 +31,30 @@ weatherApp.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
         });
 }]);
 
-
-
 weatherApp.controller('secondCtrl', ['$scope', '$http', function($scope, $http) {
+    $scope.hours = [];
+
+    $scope.hours.hour = {};
+
+    $http({
+            method: 'GET',
+            url: "http://api.openweathermap.org/data/2.5/forecast?q=Lyon,fr&mode=json"
+        })
+        .success(function(data) {
+            for (i = 1; i < data.list.length && i < 14; i++) {
+                $scope.hours[i - 1] = {};
+                $scope.hours[i - 1].clock = formatTime(data.list[i].dt_txt);
+                $scope.hours[i - 1].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
+                $scope.hours[i - 1].temp = convertKelvinToCelsisus(data.list[i].main.temp);
+            }
+        })
+        .error(function(jqXHR, textStatus, errorThrown) {
+            handleError(jqXHR, textStatus, errorThrown);
+        });
+}]);
+
+
+weatherApp.controller('thirdCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.days = [];
 
     $scope.days.day = {};
@@ -44,18 +65,18 @@ weatherApp.controller('secondCtrl', ['$scope', '$http', function($scope, $http) 
         })
         .success(function(data) {
             for (i = 1; i < data.list.length && i < 10; i++) {
-                $scope.days[i-1] = {};
-                $scope.days[i-1].date = convertNumberIntoDateDay(new Date().getDay() + i);
-                $scope.days[i-1].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
-                $scope.days[i-1].tempMax = convertKelvinToCelsisus(data.list[i].temp.max);
-                $scope.days[i-1].tempMin = convertKelvinToCelsisus(data.list[i].temp.min);
-
+                $scope.days[i - 1] = {};
+                $scope.days[i - 1].date = convertNumberIntoDateDay(new Date().getDay() + i);
+                $scope.days[i - 1].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
+                $scope.days[i - 1].tempMax = convertKelvinToCelsisus(data.list[i].temp.max);
+                $scope.days[i - 1].tempMin = convertKelvinToCelsisus(data.list[i].temp.min);
             }
         })
         .error(function(jqXHR, textStatus, errorThrown) {
             handleError(jqXHR, textStatus, errorThrown);
         });
 }]);
+
 
 
 weatherApp.run(function($ionicPlatform) {
@@ -76,7 +97,7 @@ function handleError(jqXHR, textStatus, errorThrown) {
 }
 
 function convertKelvinToCelsisus(tempFahrenheit) {
-    return (tempFahrenheit - 273.15).toFixed(1);
+    return (tempFahrenheit - 273.15).toFixed(0);
 }
 
 function setWeatherIconSrc(weatherIcon) {
@@ -137,4 +158,8 @@ function convertNumberIntoDateDay(number) {
         case 0:
             return "Sunday";
     }
+}
+
+function formatTime(clock) {
+    return clock.substring(11, 16);
 }
