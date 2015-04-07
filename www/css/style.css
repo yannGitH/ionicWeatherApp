@@ -33,13 +33,12 @@ ion-content {
 }
 /*Appearance of the previsions card*/
 .card {
-    background: black;
-    opacity: 0.5;
+    background-color : rgba(0,0,0,0.8);
 }
 /*Appearance of the item appending to the previsions card*/
 .item {
     color: white;
-    background: black;
+    background-color : rgba(0,0,0,0.2);
 }
 /*Color of the day in the previsions card*/
 #day {
