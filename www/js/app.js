@@ -9,91 +9,29 @@ var IMG_PATH = "img/IconList/"
 var weatherApp = angular.module('starter', ['ionic']);
 
 
-/*angular.module('testApp', ['ionic'])
-.controller('MyController', function($scope, $http) {
-  $scope.items = [1,2,3];
-  $scope.doRefresh = function() {
-    $http.get('/new-items')
-     .success(function(newItems) {
-       $scope.items = newItems;
-     })
-     .finally(function() {
-       // Stop the ion-refresher from spinning
-       $scope.$broadcast('scroll.refreshComplete');
-     });
-  };
-});*/
-
-
 weatherApp.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.city = {};
-
-    $http({
-            method: 'GET',
-            url: 'http://api.openweathermap.org/data/2.5/weather?q=Lyon,fr'
-        })
-        .success(function(data) {
-            $scope.city.name = data.name;
-            $scope.city.temperature = convertKelvinToCelsisus(data.main.temp);
-            $scope.city.weather = data.weather[0].description;
-            $scope.city.weatherIcon = setWeatherIconSrc(data.weather[0].icon);
-            $scope.city.temperatureMax = convertKelvinToCelsisus(data.main.temp_max);
-            $scope.city.temperatureMin = convertKelvinToCelsisus(data.main.temp_min);
-            $scope.city.humidity = "Humidity : " + data.main.humidity;
-            $scope.city.windSpeed = "Wind speed : " + data.wind.speed;
-            $scope.city.pressure = "Pressure : " + data.main.pressure;
-        })
-        .error(function(jqXHR, textStatus, errorThrown) {
-            handleError(jqXHR, textStatus, errorThrown);
-        });
+    getOpenWeatherDataWithCityName($scope, $http);
 }]);
 
+
 weatherApp.controller('secondCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.hours = [];
-
-    $scope.hours.hour = {};
-
-    $http({
-            method: 'GET',
-            url: "http://api.openweathermap.org/data/2.5/forecast?q=Lyon,fr&mode=json"
-        })
-        .success(function(data) {
-            for (i = 1; i < data.list.length && i < 14; i++) {
-                $scope.hours[i - 1] = {};
-                $scope.hours[i - 1].clock = formatTime(data.list[i].dt_txt);
-                $scope.hours[i - 1].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
-                $scope.hours[i - 1].temp = convertKelvinToCelsisus(data.list[i].main.temp);
-            }
-        })
-        .error(function(jqXHR, textStatus, errorThrown) {
-            handleError(jqXHR, textStatus, errorThrown);
-        });
+    getOpenWeatherDataForecast36Hours($scope, $http);
 }]);
 
 
 weatherApp.controller('thirdCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.days = [];
-
-    $scope.days.day = {};
-
-    $http({
-            method: 'GET',
-            url: "http://api.openweathermap.org/data/2.5/forecast/daily?q=Lyon,fr&cnt=10&mode=json",
-        })
-        .success(function(data) {
-            for (i = 1; i < data.list.length && i < 10; i++) {
-                $scope.days[i - 1] = {};
-                $scope.days[i - 1].date = convertNumberIntoDateDay(new Date().getDay() + i);
-                $scope.days[i - 1].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
-                $scope.days[i - 1].tempMax = convertKelvinToCelsisus(data.list[i].temp.max);
-                $scope.days[i - 1].tempMin = convertKelvinToCelsisus(data.list[i].temp.min);
-            }
-        })
-        .error(function(jqXHR, textStatus, errorThrown) {
-            handleError(jqXHR, textStatus, errorThrown);
-        });
+    getOpenWeatherDataForecastXDays($scope, $http);
 }]);
 
+
+weatherApp.controller('refresher', function($scope, $http) {
+    $scope.doRefresh = function() {
+        getOpenWeatherDataWithCityName($scope, $http);
+        getOpenWeatherDataForecast36Hours($scope, $http);
+        getOpenWeatherDataForecastXDays($scope, $http);
+        $scope.$broadcast('scroll.refreshComplete');
+    }
+});
 
 
 weatherApp.run(function($ionicPlatform) {
@@ -179,4 +117,76 @@ function convertNumberIntoDateDay(number) {
 
 function formatTime(clock) {
     return clock.substring(11, 16);
+}
+
+function getOpenWeatherDataWithCityName(scope, http) {
+    scope.city = {};
+
+    http({
+            method: 'GET',
+            url: 'http://api.openweathermap.org/data/2.5/weather?q=Lyon,fr'
+        })
+        .success(function(data) {
+            scope.city.name = data.name;
+            scope.city.temperature = convertKelvinToCelsisus(data.main.temp);
+            scope.city.weather = data.weather[0].description;
+            scope.city.weatherIcon = setWeatherIconSrc(data.weather[0].icon);
+            scope.city.temperatureMax = convertKelvinToCelsisus(data.main.temp_max);
+            scope.city.temperatureMin = convertKelvinToCelsisus(data.main.temp_min);
+            scope.city.humidity = "Humidity : " + data.main.humidity;
+            scope.city.windSpeed = "Wind speed : " + data.wind.speed;
+            scope.city.pressure = "Pressure : " + data.main.pressure;
+        })
+        .error(function(jqXHR, textStatus, errorThrown) {
+            handleError(jqXHR, textStatus, errorThrown);
+        });
+}
+
+function getOpenWeatherDataWithLocalisation() {
+
+}
+
+function getOpenWeatherDataForecastXDays(scope, http) {
+    scope.days = [];
+
+    scope.days.day = {};
+
+    http({
+            method: 'GET',
+            url: "http://api.openweathermap.org/data/2.5/forecast/daily?q=Lyon,fr&cnt=10&mode=json",
+        })
+        .success(function(data) {
+            for (i = 1; i < data.list.length && i < 10; i++) {
+                scope.days[i - 1] = {};
+                scope.days[i - 1].date = convertNumberIntoDateDay(new Date().getDay() + i);
+                scope.days[i - 1].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
+                scope.days[i - 1].tempMax = convertKelvinToCelsisus(data.list[i].temp.max);
+                scope.days[i - 1].tempMin = convertKelvinToCelsisus(data.list[i].temp.min);
+            }
+        })
+        .error(function(jqXHR, textStatus, errorThrown) {
+            handleError(jqXHR, textStatus, errorThrown);
+        });
+}
+
+function getOpenWeatherDataForecast36Hours(scope, http) {
+    scope.hours = [];
+
+    scope.hours.hour = {};
+
+    http({
+            method: 'GET',
+            url: "http://api.openweathermap.org/data/2.5/forecast?q=Lyon,fr&mode=json"
+        })
+        .success(function(data) {
+            for (i = 1; i < data.list.length && i < 14; i++) {
+                scope.hours[i - 1] = {};
+                scope.hours[i - 1].clock = formatTime(data.list[i].dt_txt);
+                scope.hours[i - 1].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
+                scope.hours[i - 1].temp = convertKelvinToCelsisus(data.list[i].main.temp);
+            }
+        })
+        .error(function(jqXHR, textStatus, errorThrown) {
+            handleError(jqXHR, textStatus, errorThrown);
+        });
 }
