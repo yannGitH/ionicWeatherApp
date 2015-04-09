@@ -18,6 +18,8 @@
 <body ng-app="starter">
     <ion-pane>
         <ion-content>
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+            </ion-refresher>
             <div ng-controller="mainCtrl">
                 <div id="mainPage">
                     <p id="title">{{city.name}}</p>
@@ -42,19 +44,19 @@
                 <div class="list">
                     <div ng-controller="secondCtrl">
                         <ion-scroll direction="x" class="wide-as-needed horizontalScrollContainer">
-                            <div id="containerHourPrevisions" class="row">
+                            <div id="hourPrevisionsContainer" class="row">
                                 <div ng-repeat="hour in hours" class="hourPrevisionsBlock col">
-                                    <span>{{hour.clock}}</span>
-                                    <div>
-                                        <img ng-src={{hour.wheatherIcon}}></img>
-                                    </div>
-                                    <span>{{hour.temp}}°</span>
+                                    <div>{{hour.clock}}</div>
+                                    <img ng-src={{hour.wheatherIcon}}></img>
+                                    <div>{{hour.temp}}°</div>
                                 </div>
                             </div>
                         </ion-scroll>
                     </div>
+                <div class="item-divider">
+                </div>
                     <div ng-controller="thirdCtrl">
-                        <div >
+                        <div>
                             <div ng-repeat="day in days" class="row">
                                 <span class="col col-45" id="day">{{day.date}}</span>
                                 <div class="col col-10">

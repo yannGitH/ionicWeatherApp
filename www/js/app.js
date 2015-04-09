@@ -8,6 +8,23 @@ var IMG_PATH = "img/IconList/"
 // the 2nd parameter is an array of 'requires'
 var weatherApp = angular.module('starter', ['ionic']);
 
+
+/*angular.module('testApp', ['ionic'])
+.controller('MyController', function($scope, $http) {
+  $scope.items = [1,2,3];
+  $scope.doRefresh = function() {
+    $http.get('/new-items')
+     .success(function(newItems) {
+       $scope.items = newItems;
+     })
+     .finally(function() {
+       // Stop the ion-refresher from spinning
+       $scope.$broadcast('scroll.refreshComplete');
+     });
+  };
+});*/
+
+
 weatherApp.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.city = {};
 

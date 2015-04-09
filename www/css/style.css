@@ -58,8 +58,9 @@ ion-content {
 
 .hourPrevisionsBlock {
     color: white;
-    width: 60px;
     margin: 0 5px 0 5px;
+    text-align: center;
+    min-width: 60px;
 }
 /*Allow horizontal scorll on hours previsions*/
 
@@ -68,11 +69,12 @@ ion-content {
     white-space: nowrap;
 }
 
-#containerHourPrevisions {
+#hourPrevisionsContainer {
     margin: 2px;
 }
 
 .horizontalScrollContainer {
     width: 100%;
-    overflow:hidden;
+    overflow: hidden;
 }
+
