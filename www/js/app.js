@@ -6,9 +6,11 @@ var IMG_PATH = "img/IconList/"
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
+
+/* Angular moduler instanciation */
 var weatherApp = angular.module('starter', ['ionic']);
 
-
+/* Main controller */
 weatherApp.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
     getOpenWeatherDataWithCityName($scope, $http);
 }]);
@@ -23,6 +25,9 @@ weatherApp.controller('thirdCtrl', ['$scope', '$http', function($scope, $http) {
     getOpenWeatherDataForecastXDays($scope, $http);
 }]);
 
+weatherApp.controller('geolocation', ['$scope', '$http', function($scope, $http) {
+    getOpenWeatherDataWithLocalisation($scope,$http);
+}]);
 
 weatherApp.controller('refresher', function($scope, $http) {
     $scope.doRefresh = function() {
@@ -142,8 +147,20 @@ function getOpenWeatherDataWithCityName(scope, http) {
         });
 }
 
-function getOpenWeatherDataWithLocalisation() {
+function getOpenWeatherDataWithLocalisation(scope,http) {
+    scope.city = {};
 
+    http({
+            method: 'GET',
+            url: "http://api.openweathermap.org/data/2.5/weather?lat=45.76&lon=4.833"
+        })
+        .success(function(data) {
+            scope.city.name = data.name;
+            scope.city.country = data.sys.country;
+        })
+        .error(function(jqXHR, textStatus, errorThrown) {
+            handleError(jqXHR, textStatus, errorThrown);
+        });
 }
 
 function getOpenWeatherDataForecastXDays(scope, http) {

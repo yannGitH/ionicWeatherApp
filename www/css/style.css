@@ -4,15 +4,14 @@ ion-content {
     background: url("../img/Lyon.jpg");
     background-size: 100%;
 }
-/*Name of the city at the top of the screen*/
+/*Title color*/
 
-#title {
-    text-align: center;
-    height: 10%;
+.title {
+    color: white !important;
 }
 /*Temperature on the main page*/
 
-#temperature {
+.temperature {
     font-size: 70px;
 }
 /*Main page parameters*/
@@ -25,16 +24,16 @@ ion-content {
 /*Height of the component in the main page's bottom*/
 
 #componentBottom {
-    height: 90%;
+    height: 100%;
 }
 /*Color of the min temperature in the previsions card*/
 
-#tempMin {
+.tempMin {
     color: blue;
 }
 /*Position of the temperatures in the previsions card*/
 
-#temp {
+.temp {
     text-align: right;
     color: white;
 }
@@ -51,7 +50,7 @@ ion-content {
 }
 /*Color of the day in the previsions card*/
 
-#day {
+.day {
     color: white;
 }
 /*Hour previsions*/
@@ -62,19 +61,26 @@ ion-content {
     text-align: center;
     min-width: 60px;
 }
-/*Allow horizontal scorll on hours previsions*/
+/*Allow horizontal scoll on hours previsions*/
 
 .wide-as-needed {
     overflow: hidden;
     white-space: nowrap;
 }
-
 #hourPrevisionsContainer {
     margin: 2px;
 }
-
 .horizontalScrollContainer {
     width: 100%;
     overflow: hidden;
+}
+.bar.bar-light {
+    background: none;
+}
+.bar-header {
+    border: 0px;
+}
+.daysPrevisionsContainer {
+    border-top: 1px solid white;
 }
 
