@@ -11,22 +11,22 @@ var IMG_PATH = "img/IconList/"
 var weatherApp = angular.module('starter', ['ionic']);
 
 /* Main controller */
-weatherApp.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
+weatherApp.controller('weatherByCityName', ['$scope', '$http', function($scope, $http) {
     getOpenWeatherDataWithCityName($scope, $http);
 }]);
 
 
-weatherApp.controller('secondCtrl', ['$scope', '$http', function($scope, $http) {
+weatherApp.controller('weatherForecast36Hours', ['$scope', '$http', function($scope, $http) {
     getOpenWeatherDataForecast36Hours($scope, $http);
 }]);
 
 
-weatherApp.controller('thirdCtrl', ['$scope', '$http', function($scope, $http) {
+weatherApp.controller('weatherForecastXDays', ['$scope', '$http', function($scope, $http) {
     getOpenWeatherDataForecastXDays($scope, $http);
 }]);
 
-weatherApp.controller('geolocation', ['$scope', '$http', function($scope, $http) {
-    getOpenWeatherDataWithLocalisation($scope,$http);
+weatherApp.controller('weatherByLocation', ['$scope', '$http', function($scope, $http) {
+    getOpenWeatherDataWithLocalisation($scope, $http);
 }]);
 
 weatherApp.controller('refresher', function($scope, $http) {
@@ -36,6 +36,23 @@ weatherApp.controller('refresher', function($scope, $http) {
         getOpenWeatherDataForecastXDays($scope, $http);
         $scope.$broadcast('scroll.refreshComplete');
     }
+});
+
+weatherApp.controller('geolocation', function($cordovaGeolocation) {
+    var posOptions = {
+        timeout: 10000,
+        enableHighAccuracy: false
+    };
+    $cordovaGeolocation
+        .getCurrentPosition(posOptions)
+        .then(function(position) {
+            var lat = position.coords.latitude
+            var long = position.coords.longitude
+            console.log(lat);
+            console.log(long);
+        }, function(err) {
+            // error
+        });
 });
 
 
@@ -147,7 +164,7 @@ function getOpenWeatherDataWithCityName(scope, http) {
         });
 }
 
-function getOpenWeatherDataWithLocalisation(scope,http) {
+function getOpenWeatherDataWithLocalisation(scope, http) {
     scope.city = {};
 
     http({
