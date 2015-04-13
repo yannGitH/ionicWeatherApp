@@ -38,21 +38,24 @@ weatherApp.controller('refresher', function($scope, $http) {
     }
 });
 
-weatherApp.controller('geolocation', function($cordovaGeolocation) {
-    var posOptions = {
-        timeout: 10000,
-        enableHighAccuracy: false
-    };
-    $cordovaGeolocation
-        .getCurrentPosition(posOptions)
-        .then(function(position) {
-            var lat = position.coords.latitude
-            var long = position.coords.longitude
-            console.log(lat);
-            console.log(long);
-        }, function(err) {
-            // error
-        });
+weatherApp.controller('geolocation', function() {
+        // onSuccess Callback
+        // This method accepts a Position object, which contains the
+        // current GPS coordinates
+        //
+        var onSuccess = function(position) {
+            alert('Latitude: ' + position.coords.latitude + '\n' +
+                'Longitude: ' + position.coords.longitude + '\n');
+        };
+
+        // onError Callback receives a PositionError object
+        //
+        function onError(error) {
+            alert('code: ' + error.code + '\n' +
+                'message: ' + error.message + '\n');
+        }
+
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
 });
 
 

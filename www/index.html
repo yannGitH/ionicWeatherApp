@@ -23,7 +23,7 @@
                     </ion-refresher>
                 </div>
                 <!-- A ne pas supprimer, début implémentation géoloc -->
-                <!-- <div ng-controller="geolocation"></div> -->
+                <div ng-controller="geolocation"></div>
                 <!-- A ne pas supprimer, implémentation de l'apel AJAX pour la géoloc -->
                 <!--                 <div ng-controller="weatherByLocation">{{city.name}}{{city.country}}</div> -->
                 <div id="mainPage" ng-controller="weatherByCityName">
@@ -62,7 +62,7 @@
                             </ion-scroll>
                         </div>
                         <div ng-controller="weatherForecastXDays" class="daysPrevisionsContainer">
-                            <div ng-repeat="day in days" class="row">
+                            <div ng-repeat="day in days" class="row dayPrevisionsContainer">
                                 <span class="col col-45 day">{{day.date}}</span>
                                 <div class="col col-10">
                                     <img class="wheather-icon" ng-src={{day.wheatherIcon}}></img>

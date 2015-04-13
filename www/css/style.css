@@ -83,4 +83,8 @@ ion-content {
 .daysPrevisionsContainer {
     border-top: 1px solid white;
 }
+.dayPrevisionsContainer {
+    border-bottom : 1px solid white;
+    border-style: dotted;
+}
 
