@@ -22,35 +22,32 @@
                     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
                     </ion-refresher>
                 </div>
-                <!-- A ne pas supprimer, implémentation de l'apel AJAX pour la géoloc -->
-                <div ng-controller="init"></div>
-                <div ng-controller="weatherByLocation">{{city.name}}{{city.country}}</div>
-                <div id="mainPage" ng-controller="weatherByCityName">
-                    <div class="bar bar-header bar-light">
-                        <!-- <div class="title">{{city.name}}</div> -->
+                <div ng-controller="app">
+                    <div id="mainPage">
+                        <div class="bar bar-header bar-light">
+                            <div class="title">{{city.name}}</div>
 
-                        <!-- A ne pas supprimer, future implémentation -->
-                        <!--                         <button class="button button-icon icon ion-plus-round"></button> -->
-                    </div>
-                    <div id="componentBottom" class="row row-bottom">
-                        <div class="col">
-                            <p class="temperature">{{city.temperature}}°</p>
-                            <div class="globalWeather">
-                                <img class="weather-icon" ng-src={{city.weatherIcon}}></img><span class="weather">{{city.weather}}</span>
+                            <!-- A ne pas supprimer, future implémentation -->
+                            <!--                         <button class="button button-icon icon ion-plus-round"></button> -->
+                        </div>
+                        <div id="componentBottom" class="row row-bottom">
+                            <div class="col">
+                                <p class="temperature">{{city.temperature}}°</p>
+                                <div class="globalWeather">
+                                    <img class="weather-icon" ng-src={{city.weatherIcon}}></img><span class="weather">{{city.weather}}</span>
+                                </div>
+                                <p>
+                                    <img class="arrow-up" src="img/arrowUp.png"></img><span class="temperature-max">{{city.temperatureMax}}°</span>
+                                    <img class="arrow-down" src="img/arrowDown.png"></img><span class="temperature-min">{{city.temperatureMin}}°</span>
+                                </p>
                             </div>
-                            <p>
-                                <img class="arrow-up" src="img/arrowUp.png"></img><span class="temperature-max">{{city.temperatureMax}}°</span>
-                                <img class="arrow-down" src="img/arrowDown.png"></img><span class="temperature-min">{{city.temperatureMin}}°</span>
-                            </p>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="item item-divider">
-                        Previsions
-                    </div>
-                    <div class="list">
-                        <div ng-controller="weatherForecast36Hours">
+                    <div class="card">
+                        <div class="item item-divider">
+                            Previsions
+                        </div>
+                        <div class="list">
                             <ion-scroll direction="x" class="wide-as-needed horizontalScrollContainer">
                                 <div id="hourPrevisionsContainer" class="row">
                                     <div ng-repeat="hour in hours" class="hourPrevisionsBlock col">
@@ -60,21 +57,21 @@
                                     </div>
                                 </div>
                             </ion-scroll>
-                        </div>
-                        <div ng-controller="weatherForecastXDays" class="daysPrevisionsContainer">
-                            <div ng-repeat="day in days" class="row dayPrevisionsContainer">
-                                <span class="col col-45 day">{{day.date}}</span>
-                                <div class="col col-10">
-                                    <img class="wheather-icon" ng-src={{day.wheatherIcon}}></img>
+                            <div class="daysPrevisionsContainer">
+                                <div ng-repeat="day in days" class="row dayPrevisionsContainer">
+                                    <span class="col col-45 day">{{day.date}}</span>
+                                    <div class="col col-10">
+                                        <img class="wheather-icon" ng-src={{day.wheatherIcon}}></img>
+                                    </div>
+                                    <div class="col col-45 temp">
+                                        <span>{{day.tempMax}}°</span>&nbsp;&nbsp;
+                                        <span class="tempMin">{{day.tempMin}}°</span>
+                                    </div>
                                 </div>
-                                <div class="col col-45 temp">
-                                    <span>{{day.tempMax}}°</span>&nbsp;&nbsp;
-                                    <span class="tempMin">{{day.tempMin}}°</span>
-                                </div>
+
                             </div>
                         </div>
                     </div>
-                </div>
             </ion-content>
         </ion-pane>
     </body>

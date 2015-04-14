@@ -11,44 +11,13 @@ var IMG_PATH = "img/IconList/"
 var weatherApp = angular.module('starter', ['ionic']);
 
 
-weatherApp.controller('init', ['$scope', '$http', function($scope, $http) {
-    getCurrentGeolocation($scope);
-    console.log($scope);
+weatherApp.controller('app', ['$scope', '$http', function($scope, $http) {
+    getCurrentGeolocation($scope, $http);
 }]);
-
-
-weatherApp.controller('weatherByLocation', ['$scope', '$http', function($scope, $http) {
-    console.log($scope);
-        getCurrentGeolocation($scope);
-        console.log($scope);
-    getOpenWeatherDataWithGeolocation($scope, $http, $scope.coordinates);
-}]);
-
-
-weatherApp.controller('weatherByCityName', ['$scope', '$http', function($scope, $http) {
-    console.log($scope);
-    getOpenWeatherDataWithCityName($scope, $http);
-    console.log($scope);
-}]);
-
-
-weatherApp.controller('weatherForecast36Hours', ['$scope', '$http', function($scope, $http) {
-    getOpenWeatherDataForecast36Hours($scope, $http);
-}]);
-
-
-weatherApp.controller('weatherForecastXDays', ['$scope', '$http', function($scope, $http) {
-    getOpenWeatherDataForecastXDays($scope, $http);
-}]);
-
 
 weatherApp.controller('refresher', function($scope, $http) {
     $scope.doRefresh = function() {
-    console.log($scope);
-    getOpenWeatherDataWithGeolocation($scope, $http, $scope.coordinates);
-        getOpenWeatherDataWithCityName($scope, $http);
-        getOpenWeatherDataForecast36Hours($scope, $http);
-        getOpenWeatherDataForecastXDays($scope, $http);
+        getCurrentGeolocation($scope, $http);
         $scope.$broadcast('scroll.refreshComplete');
     }
 });
@@ -138,12 +107,27 @@ function formatTime(clock) {
     return clock.substring(11, 16);
 }
 
-function getCurrentGeolocation(scope) {
-    scope.coordinates = {};
+function setData(scope, data) {
+    scope.city.name = data.name;
+    scope.city.country = data.sys.country;
+    scope.city.temperature = convertKelvinToCelsisus(data.main.temp);
+    scope.city.weather = data.weather[0].description;
+    scope.city.weatherIcon = setWeatherIconSrc(data.weather[0].icon);
+    scope.city.temperatureMax = convertKelvinToCelsisus(data.main.temp_max);
+    scope.city.temperatureMin = convertKelvinToCelsisus(data.main.temp_min);
+    scope.city.humidity = 'Humidity : ' + data.main.humidity;
+    scope.city.windSpeed = 'Wind speed : ' + data.wind.speed;
+    scope.city.pressure = 'Pressure : ' + data.main.pressure;
+}
 
+function getCurrentGeolocation(scope, http, ionicPopup) {
+
+
+    scope.coordinates = {};
     var onSuccess = function(position) {
         scope.coordinates.latitude = position.coords.latitude.toFixed(2);
         scope.coordinates.longitude = position.coords.longitude.toFixed(2);
+        getOpenWeatherDataWithGeolocation(scope, http, scope.coordinates);
     };
 
     // onError Callback receives a PositionError object
@@ -152,27 +136,17 @@ function getCurrentGeolocation(scope) {
         alert('code: ' + error.code + '\n' +
             'message: ' + error.message + '\n');
     }
-
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
 }
 
 function getOpenWeatherDataWithCityName(scope, http) {
     scope.city = {};
-
     http({
             method: 'GET',
             url: 'http://api.openweathermap.org/data/2.5/weather?q=' + scope.city.name + ',' + scope.city.country
         })
         .success(function(data) {
-            scope.city.name = data.name;
-            scope.city.temperature = convertKelvinToCelsisus(data.main.temp);
-            scope.city.weather = data.weather[0].description;
-            scope.city.weatherIcon = setWeatherIconSrc(data.weather[0].icon);
-            scope.city.temperatureMax = convertKelvinToCelsisus(data.main.temp_max);
-            scope.city.temperatureMin = convertKelvinToCelsisus(data.main.temp_min);
-            scope.city.humidity = 'Humidity : ' + data.main.humidity;
-            scope.city.windSpeed = 'Wind speed : ' + data.wind.speed;
-            scope.city.pressure = 'Pressure : ' + data.main.pressure;
+            setData(scope, data);
         })
         .error(function(jqXHR, textStatus, errorThrown) {
             handleError(jqXHR, textStatus, errorThrown);
@@ -186,8 +160,9 @@ function getOpenWeatherDataWithGeolocation(scope, http, coordinates) {
             url: 'http://api.openweathermap.org/data/2.5/weather?lat=' + coordinates.latitude + '&lon=' + coordinates.longitude
         })
         .success(function(data) {
-            scope.city.name = data.name;
-            scope.city.country = data.sys.country;
+            setData(scope, data);
+            getOpenWeatherDataForecastXDays(scope, http);
+            getOpenWeatherDataForecast36Hours(scope, http);
         })
         .error(function(jqXHR, textStatus, errorThrown) {
             handleError(jqXHR, textStatus, errorThrown);
@@ -196,7 +171,6 @@ function getOpenWeatherDataWithGeolocation(scope, http, coordinates) {
 
 function getOpenWeatherDataForecastXDays(scope, http) {
     scope.days = [];
-
     scope.days.day = {};
 
     http({
@@ -219,7 +193,6 @@ function getOpenWeatherDataForecastXDays(scope, http) {
 
 function getOpenWeatherDataForecast36Hours(scope, http) {
     scope.hours = [];
-
     scope.hours.hour = {};
 
     http({
@@ -237,4 +210,12 @@ function getOpenWeatherDataForecast36Hours(scope, http) {
         .error(function(jqXHR, textStatus, errorThrown) {
             handleError(jqXHR, textStatus, errorThrown);
         });
+}
+
+
+function debug(text, ionicPopup) {
+    ionicPopup.alert({
+        title: 'Debug',
+        template: text
+    });
 }
