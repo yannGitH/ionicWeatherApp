@@ -1,7 +1,7 @@
 /*Background*/
 
 ion-content {
-    background: url("../img/Lyon.jpg");
+    /*background: url("../img/Lyon.jpg");*/
     background-size: 100%;
 }
 /*Title color*/

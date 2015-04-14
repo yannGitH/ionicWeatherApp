@@ -120,7 +120,7 @@ function setData(scope, data) {
     scope.city.pressure = 'Pressure : ' + data.main.pressure;
 }
 
-function getCurrentGeolocation(scope, http, ionicPopup) {
+function getCurrentGeolocation(scope, http) {
 
 
     scope.coordinates = {};
@@ -128,6 +128,7 @@ function getCurrentGeolocation(scope, http, ionicPopup) {
         scope.coordinates.latitude = position.coords.latitude.toFixed(2);
         scope.coordinates.longitude = position.coords.longitude.toFixed(2);
         getOpenWeatherDataWithGeolocation(scope, http, scope.coordinates);
+        setBackgroundWithGeolocation(scope, http, scope.coordinates);
     };
 
     // onError Callback receives a PositionError object
@@ -136,7 +137,10 @@ function getCurrentGeolocation(scope, http, ionicPopup) {
         alert('code: ' + error.code + '\n' +
             'message: ' + error.message + '\n');
     }
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+        timeout: 10000,
+        enableHighAccuracy: true
+    });
 }
 
 function getOpenWeatherDataWithCityName(scope, http) {
@@ -175,7 +179,7 @@ function getOpenWeatherDataForecastXDays(scope, http) {
 
     http({
             method: 'GET',
-            url: "http://api.openweathermap.org/data/2.5/forecast/daily?q=Lyon,fr&cnt=10&mode=json",
+            url: 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + scope.city.name + ',' + scope.city.country + '&cnt=10&mode=json',
         })
         .success(function(data) {
             for (i = 1; i < data.list.length && i < 10; i++) {
@@ -197,7 +201,7 @@ function getOpenWeatherDataForecast36Hours(scope, http) {
 
     http({
             method: 'GET',
-            url: 'http://api.openweathermap.org/data/2.5/forecast?q=Lyon,fr&mode=json'
+            url: 'http://api.openweathermap.org/data/2.5/forecast?q=' + scope.city.name + ',' + scope.city.country + '&mode=json'
         })
         .success(function(data) {
             for (i = 1; i < data.list.length && i < 14; i++) {
@@ -212,6 +216,29 @@ function getOpenWeatherDataForecast36Hours(scope, http) {
         });
 }
 
+function setBackgroundWithGeolocation(scope, http, coordinates) {
+    scope.pictures = [];
+    scope.pictures.picture = {};
+    http({
+            method: 'GET',
+            url: 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=cc5ca51a9b6fc55c511c1dd5cc90b1ad&accuracy=11' + 
+            '&lat=' + coordinates.latitude + '&lon=' + coordinates.longitude + 
+            '&per_page=5&page=1&format=json&nojsoncallback=1'
+        })
+        .success(function(data) {
+            for (i = 0; i < data.photos.photo.length && i < 5; i++) {
+                scope.pictures[i] = {};
+                scope.pictures[i].farmId = data.photos.photo[i].farm;
+                scope.pictures[i].serverId = data.photos.photo[i].server;
+                scope.pictures[i].userId = data.photos.photo[i].id;
+                scope.pictures[i].secret = data.photos.photo[i].secret
+            }
+            console.log(scope.pictures);
+        })
+        .error(function(jqXHR, textStatus, errorThrown) {
+            handleError(jqXHR, textStatus, errorThrown);
+        });
+}
 
 function debug(text, ionicPopup) {
     ionicPopup.alert({
