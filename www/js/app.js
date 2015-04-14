@@ -10,9 +10,25 @@ var IMG_PATH = "img/IconList/"
 /* Angular moduler instanciation */
 var weatherApp = angular.module('starter', ['ionic']);
 
-/* Main controller */
+
+weatherApp.controller('init', ['$scope', '$http', function($scope, $http) {
+    getCurrentGeolocation($scope);
+    console.log($scope);
+}]);
+
+
+weatherApp.controller('weatherByLocation', ['$scope', '$http', function($scope, $http) {
+    console.log($scope);
+        getCurrentGeolocation($scope);
+        console.log($scope);
+    getOpenWeatherDataWithGeolocation($scope, $http, $scope.coordinates);
+}]);
+
+
 weatherApp.controller('weatherByCityName', ['$scope', '$http', function($scope, $http) {
+    console.log($scope);
     getOpenWeatherDataWithCityName($scope, $http);
+    console.log($scope);
 }]);
 
 
@@ -25,39 +41,17 @@ weatherApp.controller('weatherForecastXDays', ['$scope', '$http', function($scop
     getOpenWeatherDataForecastXDays($scope, $http);
 }]);
 
-weatherApp.controller('weatherByLocation', ['$scope', '$http', function($scope, $http) {
-    getOpenWeatherDataWithLocalisation($scope, $http);
-}]);
 
 weatherApp.controller('refresher', function($scope, $http) {
     $scope.doRefresh = function() {
+    console.log($scope);
+    getOpenWeatherDataWithGeolocation($scope, $http, $scope.coordinates);
         getOpenWeatherDataWithCityName($scope, $http);
         getOpenWeatherDataForecast36Hours($scope, $http);
         getOpenWeatherDataForecastXDays($scope, $http);
         $scope.$broadcast('scroll.refreshComplete');
     }
 });
-
-weatherApp.controller('geolocation', function() {
-        // onSuccess Callback
-        // This method accepts a Position object, which contains the
-        // current GPS coordinates
-        //
-        var onSuccess = function(position) {
-            alert('Latitude: ' + position.coords.latitude + '\n' +
-                'Longitude: ' + position.coords.longitude + '\n');
-        };
-
-        // onError Callback receives a PositionError object
-        //
-        function onError(error) {
-            alert('code: ' + error.code + '\n' +
-                'message: ' + error.message + '\n');
-        }
-
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
-});
-
 
 weatherApp.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -144,12 +138,30 @@ function formatTime(clock) {
     return clock.substring(11, 16);
 }
 
+function getCurrentGeolocation(scope) {
+    scope.coordinates = {};
+
+    var onSuccess = function(position) {
+        scope.coordinates.latitude = position.coords.latitude.toFixed(2);
+        scope.coordinates.longitude = position.coords.longitude.toFixed(2);
+    };
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: ' + error.code + '\n' +
+            'message: ' + error.message + '\n');
+    }
+
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+}
+
 function getOpenWeatherDataWithCityName(scope, http) {
     scope.city = {};
 
     http({
             method: 'GET',
-            url: 'http://api.openweathermap.org/data/2.5/weather?q=Lyon,fr'
+            url: 'http://api.openweathermap.org/data/2.5/weather?q=' + scope.city.name + ',' + scope.city.country
         })
         .success(function(data) {
             scope.city.name = data.name;
@@ -158,21 +170,20 @@ function getOpenWeatherDataWithCityName(scope, http) {
             scope.city.weatherIcon = setWeatherIconSrc(data.weather[0].icon);
             scope.city.temperatureMax = convertKelvinToCelsisus(data.main.temp_max);
             scope.city.temperatureMin = convertKelvinToCelsisus(data.main.temp_min);
-            scope.city.humidity = "Humidity : " + data.main.humidity;
-            scope.city.windSpeed = "Wind speed : " + data.wind.speed;
-            scope.city.pressure = "Pressure : " + data.main.pressure;
+            scope.city.humidity = 'Humidity : ' + data.main.humidity;
+            scope.city.windSpeed = 'Wind speed : ' + data.wind.speed;
+            scope.city.pressure = 'Pressure : ' + data.main.pressure;
         })
         .error(function(jqXHR, textStatus, errorThrown) {
             handleError(jqXHR, textStatus, errorThrown);
         });
 }
 
-function getOpenWeatherDataWithLocalisation(scope, http) {
+function getOpenWeatherDataWithGeolocation(scope, http, coordinates) {
     scope.city = {};
-
     http({
             method: 'GET',
-            url: "http://api.openweathermap.org/data/2.5/weather?lat=45.76&lon=4.833"
+            url: 'http://api.openweathermap.org/data/2.5/weather?lat=' + coordinates.latitude + '&lon=' + coordinates.longitude
         })
         .success(function(data) {
             scope.city.name = data.name;
@@ -213,7 +224,7 @@ function getOpenWeatherDataForecast36Hours(scope, http) {
 
     http({
             method: 'GET',
-            url: "http://api.openweathermap.org/data/2.5/forecast?q=Lyon,fr&mode=json"
+            url: 'http://api.openweathermap.org/data/2.5/forecast?q=Lyon,fr&mode=json'
         })
         .success(function(data) {
             for (i = 1; i < data.list.length && i < 14; i++) {

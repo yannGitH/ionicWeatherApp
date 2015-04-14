@@ -22,13 +22,13 @@
                     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
                     </ion-refresher>
                 </div>
-                <!-- A ne pas supprimer, début implémentation géoloc -->
-                <div ng-controller="geolocation"></div>
                 <!-- A ne pas supprimer, implémentation de l'apel AJAX pour la géoloc -->
-                <!--                 <div ng-controller="weatherByLocation">{{city.name}}{{city.country}}</div> -->
+                <div ng-controller="init"></div>
+                <div ng-controller="weatherByLocation">{{city.name}}{{city.country}}</div>
                 <div id="mainPage" ng-controller="weatherByCityName">
                     <div class="bar bar-header bar-light">
-                        <div class="title">{{city.name}}</div>
+                        <!-- <div class="title">{{city.name}}</div> -->
+
                         <!-- A ne pas supprimer, future implémentation -->
                         <!--                         <button class="button button-icon icon ion-plus-round"></button> -->
                     </div>
