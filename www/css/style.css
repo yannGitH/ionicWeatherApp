@@ -1,7 +1,5 @@
-/*Background*/
-
 ion-content {
-    /*background: url("../img/Lyon.jpg");*/
+    background: url(../img/Lyon.jpg);
     background-size: 100%;
 }
 /*Title color*/
@@ -67,24 +65,29 @@ ion-content {
     overflow: hidden;
     white-space: nowrap;
 }
+
 #hourPrevisionsContainer {
     margin: 2px;
 }
+
 .horizontalScrollContainer {
     width: 100%;
     overflow: hidden;
 }
+
 .bar.bar-light {
     background: none;
 }
+
 .bar-header {
     border: 0px;
 }
+
 .daysPrevisionsContainer {
     border-top: 1px solid white;
 }
+
 .dayPrevisionsContainer {
-    border-bottom : 1px solid white;
+    border-bottom: 1px solid white;
     border-style: dotted;
 }
-

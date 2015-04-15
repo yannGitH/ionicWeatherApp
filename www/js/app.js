@@ -128,7 +128,7 @@ function getCurrentGeolocation(scope, http) {
         scope.coordinates.latitude = position.coords.latitude.toFixed(2);
         scope.coordinates.longitude = position.coords.longitude.toFixed(2);
         getOpenWeatherDataWithGeolocation(scope, http, scope.coordinates);
-        setBackgroundWithGeolocation(scope, http, scope.coordinates);
+        getBackgroundWithGeolocation(scope, http, scope.coordinates);
     };
 
     // onError Callback receives a PositionError object
@@ -209,6 +209,7 @@ function getOpenWeatherDataForecast36Hours(scope, http) {
                 scope.hours[i - 1].clock = formatTime(data.list[i].dt_txt);
                 scope.hours[i - 1].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
                 scope.hours[i - 1].temp = convertKelvinToCelsisus(data.list[i].main.temp);
+                setBackground(scope);
             }
         })
         .error(function(jqXHR, textStatus, errorThrown) {
@@ -216,28 +217,34 @@ function getOpenWeatherDataForecast36Hours(scope, http) {
         });
 }
 
-function setBackgroundWithGeolocation(scope, http, coordinates) {
+function getBackgroundWithGeolocation(scope, http, coordinates) {
     scope.pictures = [];
     scope.pictures.picture = {};
     http({
             method: 'GET',
-            url: 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=cc5ca51a9b6fc55c511c1dd5cc90b1ad&accuracy=11' + 
+            url: 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=89ee532eaf9831ba204e54eb04b9b516&accuracy=11' + 
             '&lat=' + coordinates.latitude + '&lon=' + coordinates.longitude + 
             '&per_page=5&page=1&format=json&nojsoncallback=1'
         })
         .success(function(data) {
             for (i = 0; i < data.photos.photo.length && i < 5; i++) {
                 scope.pictures[i] = {};
-                scope.pictures[i].farmId = data.photos.photo[i].farm;
-                scope.pictures[i].serverId = data.photos.photo[i].server;
-                scope.pictures[i].userId = data.photos.photo[i].id;
-                scope.pictures[i].secret = data.photos.photo[i].secret
+                scope.pictures[i].url = 'https://farm' +
+                 data.photos.photo[i].farm + 
+                 '.staticflickr.com/' +
+                  data.photos.photo[i].server +
+                  '/' + data.photos.photo[i].id +
+                  '_' + data.photos.photo[i].secret + '.jpg';
             }
             console.log(scope.pictures);
         })
         .error(function(jqXHR, textStatus, errorThrown) {
             handleError(jqXHR, textStatus, errorThrown);
         });
+}
+
+function setBackground(scope) {
+
 }
 
 function debug(text, ionicPopup) {
