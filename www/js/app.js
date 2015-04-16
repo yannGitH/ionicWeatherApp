@@ -11,8 +11,8 @@ var IMG_PATH = "img/IconList/"
 var weatherApp = angular.module('starter', ['ionic']);
 
 
-weatherApp.controller('app', ['$scope', '$http', function($scope, $http) {
-    getCurrentGeolocation($scope, $http);
+weatherApp.controller('app', ['$scope', '$http', '$interval', function($scope, $http, $interval) {
+    getCurrentGeolocation($scope, $http, $interval);
 }]);
 
 weatherApp.controller('refresher', function($scope, $http) {
@@ -120,15 +120,14 @@ function setData(scope, data) {
     scope.city.pressure = 'Pressure : ' + data.main.pressure;
 }
 
-function getCurrentGeolocation(scope, http) {
+function getCurrentGeolocation(scope, http, interval) {
 
 
     scope.coordinates = {};
     var onSuccess = function(position) {
         scope.coordinates.latitude = position.coords.latitude.toFixed(2);
         scope.coordinates.longitude = position.coords.longitude.toFixed(2);
-        getOpenWeatherDataWithGeolocation(scope, http, scope.coordinates);
-        getBackgroundWithGeolocation(scope, http, scope.coordinates);
+        getOpenWeatherDataWithGeolocation(scope, http, scope.coordinates, interval);
     };
 
     // onError Callback receives a PositionError object
@@ -138,7 +137,7 @@ function getCurrentGeolocation(scope, http) {
             'message: ' + error.message + '\n');
     }
     navigator.geolocation.getCurrentPosition(onSuccess, onError, {
-        timeout: 10000,
+        timeout: 60000,
         enableHighAccuracy: true
     });
 }
@@ -157,7 +156,7 @@ function getOpenWeatherDataWithCityName(scope, http) {
         });
 }
 
-function getOpenWeatherDataWithGeolocation(scope, http, coordinates) {
+function getOpenWeatherDataWithGeolocation(scope, http, coordinates, interval) {
     scope.city = {};
     http({
             method: 'GET',
@@ -167,6 +166,7 @@ function getOpenWeatherDataWithGeolocation(scope, http, coordinates) {
             setData(scope, data);
             getOpenWeatherDataForecastXDays(scope, http);
             getOpenWeatherDataForecast36Hours(scope, http);
+            getBackgroundWithGeolocation(scope, http, interval);
         })
         .error(function(jqXHR, textStatus, errorThrown) {
             handleError(jqXHR, textStatus, errorThrown);
@@ -216,13 +216,13 @@ function getOpenWeatherDataForecast36Hours(scope, http) {
         });
 }
 
-function getBackgroundWithGeolocation(scope, http, coordinates) {
+function getBackgroundWithGeolocation(scope, http, interval) {
     scope.pictures = [];
     scope.pictures.picture = {};
     http({
             method: 'GET',
             url: 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=89ee532eaf9831ba204e54eb04b9b516&accuracy=11' +
-                '&lat=' + coordinates.latitude + '&lon=' + coordinates.longitude +
+                '&tags=' + scope.city.name + '&lat=' + scope.coordinates.latitude + '&lon=' + scope.coordinates.longitude +
                 '&per_page=5&page=1&format=json&nojsoncallback=1'
         })
         .success(function(data) {
@@ -234,18 +234,26 @@ function getBackgroundWithGeolocation(scope, http, coordinates) {
                     data.photos.photo[i].server +
                     '/' + data.photos.photo[i].id +
                     '_' + data.photos.photo[i].secret + '.jpg';
-/*                setBackground(scope);*/
 
             }
-            document.getElementById('bigDiv').style.backgroundImage="url(" + scope.pictures[1].url + ")";
+            scope.index = {};
+            scope.index.value = 0;
+            scope.urlBackground = {};
+            setBackground(scope, interval);
         })
         .error(function(jqXHR, textStatus, errorThrown) {
             handleError(jqXHR, textStatus, errorThrown);
         });
 }
 
-function setBackground(scope) {
-
+function setBackground(scope, interval) {
+    scope.urlBackground.value = scope.pictures[scope.index.value % 5].url;
+    console.log(scope.urlBackground.value + '  ' + scope.index.value % 5);
+    interval(function() {
+        scope.index.value++;
+        scope.urlBackground.value = scope.pictures[scope.index.value % 5].url;
+        console.log(scope.urlBackground.value + '  ' + scope.index.value % 5);
+    }, 12000, scope);
 }
 
 function debug(text, ionicPopup) {
