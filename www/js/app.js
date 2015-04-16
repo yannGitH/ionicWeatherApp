@@ -209,7 +209,6 @@ function getOpenWeatherDataForecast36Hours(scope, http) {
                 scope.hours[i - 1].clock = formatTime(data.list[i].dt_txt);
                 scope.hours[i - 1].wheatherIcon = setWeatherIconSrc(data.list[i].weather[0].icon);
                 scope.hours[i - 1].temp = convertKelvinToCelsisus(data.list[i].main.temp);
-                setBackground(scope);
             }
         })
         .error(function(jqXHR, textStatus, errorThrown) {
@@ -222,21 +221,23 @@ function getBackgroundWithGeolocation(scope, http, coordinates) {
     scope.pictures.picture = {};
     http({
             method: 'GET',
-            url: 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=89ee532eaf9831ba204e54eb04b9b516&accuracy=11' + 
-            '&lat=' + coordinates.latitude + '&lon=' + coordinates.longitude + 
-            '&per_page=5&page=1&format=json&nojsoncallback=1'
+            url: 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=89ee532eaf9831ba204e54eb04b9b516&accuracy=11' +
+                '&lat=' + coordinates.latitude + '&lon=' + coordinates.longitude +
+                '&per_page=5&page=1&format=json&nojsoncallback=1'
         })
         .success(function(data) {
             for (i = 0; i < data.photos.photo.length && i < 5; i++) {
                 scope.pictures[i] = {};
                 scope.pictures[i].url = 'https://farm' +
-                 data.photos.photo[i].farm + 
-                 '.staticflickr.com/' +
-                  data.photos.photo[i].server +
-                  '/' + data.photos.photo[i].id +
-                  '_' + data.photos.photo[i].secret + '.jpg';
+                    data.photos.photo[i].farm +
+                    '.staticflickr.com/' +
+                    data.photos.photo[i].server +
+                    '/' + data.photos.photo[i].id +
+                    '_' + data.photos.photo[i].secret + '.jpg';
+/*                setBackground(scope);*/
+
             }
-            console.log(scope.pictures);
+            document.getElementById('bigDiv').style.backgroundImage="url(" + scope.pictures[1].url + ")";
         })
         .error(function(jqXHR, textStatus, errorThrown) {
             handleError(jqXHR, textStatus, errorThrown);

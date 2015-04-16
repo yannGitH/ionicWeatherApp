@@ -14,14 +14,16 @@
     <!-- your app's js -->
     <script src="js/app.js"></script>
 </head>
-<!--     ng-style="{'background':'url({{pictures[1].url}})','background-size':'100%'}" -->
+<!--     ng-style="{'background':'url({{pictures[1].url}})','background-size':'100%'}"  -->
+
 <body ng-app="starter">
-    <ion-pane>
-        <ion-content>
-            <div ng-controller="app">
+    <div ng-controller="app">
+        <ion-pane>
+            <ion-content id="bigDiv">
                 <div id="mainPage">
                     <div class="bar bar-header bar-light">
                         <div class="title">{{city.name}}</div>
+                        <!-- <div class="title">{{pictures[1].url}}</div> -->
                         <!-- A ne pas supprimer, future implémentation -->
                         <!--                         <button class="button button-icon icon ion-plus-round"></button> -->
                     </div>
@@ -70,8 +72,9 @@
                     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
                     </ion-refresher>
                 </div>
-        </ion-content>
-    </ion-pane>
+            </ion-content>
+        </ion-pane>
+    </div>
 </body>
 
 </html>
