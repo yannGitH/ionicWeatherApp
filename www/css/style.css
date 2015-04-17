@@ -1,7 +1,8 @@
 .pic {
     /*background: url(../img/Lyon.jpg);*/
     
-    background-size: 100%;
+    width: 100%;
+    height: auto;
 }
 /*Title color*/
 
